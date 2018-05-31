@@ -75,6 +75,11 @@ let matchCounter = 0;
 const screen = document.getElementById('screen');
 const win = document.getElementById('win');
 const lose = document.getElementById('lose');
+// Timer
+const time = document.querySelector('#timer');
+let seconds = 0,
+    minutes = 0;
+
 
 $(document).ready(function(){
   //TODO: Reset page.
@@ -83,8 +88,22 @@ $(document).ready(function(){
   });
 });
 
+function startTimer() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+        }
+    }
+    time.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    timer();
+}
 
-
+function timer() {
+    t = setTimeout(startTimer, 1000);
+}
 
 allCards.forEach(function(card){
     //With eventlistener 'click' function added to all cards
@@ -96,7 +115,10 @@ allCards.forEach(function(card){
         card.classList.add('open', 'show', 'flipInY');
         card.classList.remove('shake')
         //Start timer
-        if (moves === 16) {
+        if (moves === 0) {
+          // Game Starts
+          startTimer();
+        } else if (moves === 16) {
           stars[0].remove();
         } else if (moves === 24) {
           stars[1].remove();
