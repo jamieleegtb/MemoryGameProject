@@ -89,20 +89,25 @@ $(document).ready(function(){
 });
 
 function startTimer() {
-    seconds++;
-    if (seconds >= 60) {
-        seconds = 0;
-        minutes++;
-        if (minutes >= 60) {
-            minutes = 0;
-        }
+  seconds++;
+  if (seconds >= 60) {
+    seconds = 0;
+    minutes++;
+    if (minutes >= 60) {
+      minutes = 0;
     }
-    time.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-    timer();
+  }
+  time.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+  timer = setTimeout(startTimer, 1000);
 }
 
-function timer() {
-    t = setTimeout(startTimer, 1000);
+function stopTimer() {
+  clearTimeout(timer);
+}
+
+function addMessage() {
+  const message = document.getElementById('message');
+  message.innerText = `You finished the game in ${moves} moves.`;
 }
 
 allCards.forEach(function(card){
@@ -118,14 +123,17 @@ allCards.forEach(function(card){
         if (moves === 0) {
           // Game Starts
           startTimer();
-        } else if (moves === 16) {
+        }
+
+        if (moves === 3) {
           stars[0].remove();
-        } else if (moves === 24) {
+        } else if (moves === 5) {
           stars[1].remove();
-        } else if (moves === 32) {
+        } else if (moves === 8) {
           stars[2].remove();
           screen.style.display = "block";
           lose.style.display = "block";
+          addMessage();
         }
 
         if (openCards.length == 2){
@@ -138,6 +146,8 @@ allCards.forEach(function(card){
               if (matchCounter === 8) {
                 screen.style.display = "block";
                 win.style.display = "block";
+                addMessage();
+                stopTimer();
               }
           } else {
               //'open' & 'show' classes will be deleted from cards after 1 second

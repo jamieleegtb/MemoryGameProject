@@ -60,12 +60,9 @@ h1 {
   box-shadow: 0 0 10px #888888;
 }
 
-#win {
+#win, #lose {
   display: none;
-}
-
-#lose {
-  display: none;
+  margin: 10px 0;
 }
 
 span.btn {
