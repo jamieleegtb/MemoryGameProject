@@ -48,6 +48,35 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+ let sec = 0;
+ let min = 0;
+ let timer;
+
+ function startTimer() {
+   timer = setInterval(insertTime, 1000);
+ }
+
+ function stopTimer() {
+   clearInterval(timer);
+   sec = 0;
+   min = 0;
+ }
+
+ function insertTime() {
+   sec++;
+
+   if (sec < 10) {
+     sec = `0${sec}`;
+   }
+
+   if (sec >= 60) {
+     min++;
+     sec = "00";
+   }
+
+   // display time
+   document.querySelector('#timer').innerHTML = "0" + min + ":" + sec;
+ }
 
 function initGame(){
   const deck = document.querySelector('.deck');
@@ -75,10 +104,6 @@ let matchCounter = 0;
 const screen = document.getElementById('screen');
 const win = document.getElementById('win');
 const lose = document.getElementById('lose');
-// Timer
-const time = document.querySelector('#timer');
-let seconds = 0,
-    minutes = 0;
 
 
 $(document).ready(function(){
@@ -87,23 +112,6 @@ $(document).ready(function(){
       location.reload();
   });
 });
-
-function startTimer() {
-  seconds++;
-  if (seconds >= 60) {
-    seconds = 0;
-    minutes++;
-    if (minutes >= 60) {
-      minutes = 0;
-    }
-  }
-  time.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-  timer = setTimeout(startTimer, 1000);
-}
-
-function stopTimer() {
-  clearTimeout(timer);
-}
 
 function addMessage() {
   const message = document.getElementById('message');
@@ -121,16 +129,14 @@ allCards.forEach(function(card){
         card.classList.remove('shake')
         //Start timer
         if (moves === 0) {
-          // Game Starts
           startTimer();
-        }
-
-        if (moves === 3) {
+        } if (moves === 1) {
           stars[0].remove();
-        } else if (moves === 5) {
+        } else if (moves === 2) {
           stars[1].remove();
-        } else if (moves === 8) {
+        } else if (moves === 3) {
           stars[2].remove();
+          stopTimer();
           screen.style.display = "block";
           lose.style.display = "block";
           addMessage();
@@ -144,10 +150,10 @@ allCards.forEach(function(card){
               matchCounter++;
               openCards = [];
               if (matchCounter === 8) {
+                stopTimer();
                 screen.style.display = "block";
                 win.style.display = "block";
                 addMessage();
-                stopTimer();
               }
           } else {
               //'open' & 'show' classes will be deleted from cards after 1 second
