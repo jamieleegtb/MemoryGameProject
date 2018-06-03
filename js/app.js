@@ -48,35 +48,6 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
- let sec = 0;
- let min = 0;
- let timer;
-
- function startTimer() {
-   timer = setInterval(insertTime, 1000);
- }
-
- function stopTimer() {
-   clearInterval(timer);
-   sec = 0;
-   min = 0;
- }
-
- function insertTime() {
-   sec++;
-
-   if (sec < 10) {
-     sec = `0${sec}`;
-   }
-
-   if (sec >= 60) {
-     min++;
-     sec = "00";
-   }
-
-   // display time
-   document.querySelector('#timer').innerHTML = "0" + min + ":" + sec;
- }
 
 function initGame(){
   const deck = document.querySelector('.deck');
@@ -104,6 +75,10 @@ let matchCounter = 0;
 const screen = document.getElementById('screen');
 const win = document.getElementById('win');
 const lose = document.getElementById('lose');
+// Timer
+let sec = 0;
+let min = 0;
+let timer;
 
 
 $(document).ready(function(){
@@ -112,6 +87,36 @@ $(document).ready(function(){
       location.reload();
   });
 });
+
+
+
+// Timer functions
+function startTimer() {
+	timer = setInterval(insertTime, 1000);
+}
+
+function stopTimer() {
+	sec = 0;
+	min = 0;
+  clearInterval(timer);
+}
+
+function insertTime() {
+	sec++;
+
+	if (sec < 10) {
+		sec = `0${sec}`;
+	}
+
+	if (sec >= 60) {
+		min++;
+		sec = "00";
+	}
+
+	// display time
+	document.querySelector('#timer').innerHTML = "0" + min + ":" + sec;
+}
+
 
 function addMessage() {
   const message = document.getElementById('message');
@@ -129,8 +134,9 @@ allCards.forEach(function(card){
         card.classList.remove('shake')
         //Start timer
         if (moves === 0) {
+          // Game Starts
           startTimer();
-        } if (moves === 1) {
+        } else if (moves === 1) {
           stars[0].remove();
         } else if (moves === 2) {
           stars[1].remove();
