@@ -145,7 +145,7 @@ span.btn:hover {
 
 .score-panel {
     text-align: left;
-    width: 345px;
+    width: 500px;
     margin-bottom: 10px;
 }
 
@@ -173,9 +173,10 @@ span.btn:hover {
   -moz-transition: transform 0.5s ease;
 }
 
-#timer {
+#timer, .time {
   margin-left: 10px;
 }
+
 
 
 
@@ -185,7 +186,7 @@ span.btn:hover {
  */
 @media only screen and (max-width: 700px) {
 	.score-panel {
-        width: 90%;
+        width: 95%;
     }
 
     .deck {
