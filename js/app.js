@@ -78,8 +78,7 @@ const win = document.getElementById('win');
 const lose = document.getElementById('lose');
 // Timer
 let time = 0;
-let startTimer;
-const timeHolder = document.querySelector("#timer");
+let startTimer = setInterval(timer, 1000);
 
 
 $(document).ready(function(){
@@ -91,13 +90,12 @@ $(document).ready(function(){
 
 //Timer Function
 function timer() {
-	startTimer = setInterval(function(){
-		time++;
-		timeHolder.innerHTML = time;
-	}, 1000);
+  time++;
+  document.querySelector("#timer").innerHTML = time;
 }
 
 function addMessage() {
+  clearInterval(startTimer);
   const message = document.getElementById('message');
   message.innerText = `You finished the game in ${time} seconds. You have ${howManyStars} stars.`;
 }
@@ -123,7 +121,6 @@ allCards.forEach(function(card){
         } else if (moves === 32) {
           stars[2].remove();
           howManyStars = 0;
-				  clearInterval(startTimer);
           addMessage();
           screen.style.display = "block";
           lose.style.display = "block";
@@ -137,7 +134,6 @@ allCards.forEach(function(card){
               matchCounter++;
               openCards = [];
               if (matchCounter === 8) {
-                clearInterval(startTimer);
                 addMessage();
                 screen.style.display = "block";
                 win.style.display = "block";
@@ -152,7 +148,7 @@ allCards.forEach(function(card){
                 });
                 //openCards array empitied out after two cards opened
                 openCards = [];
-              }, 1000);
+              }, 800);
             }
             moves += 1;
             moveCounter.innerText = moves;
